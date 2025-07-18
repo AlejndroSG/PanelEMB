@@ -1,0 +1,66 @@
+# 🔁 Node.js / React
+frontend/build/
+frontend/.env
+frontend/.next/
+frontend/.turbo/
+frontend/.cache/
+# frontend/Dockerfile
+# Logs
+frontend/logs
+frontend/*.log
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/lerna-debug.log*
+
+frontend/dist
+frontend/dist-ssr
+frontend/*.local
+# Editor directories and files
+frontend/.vscode/*
+frontend/!.vscode/extensions.json
+frontend/.idea
+frontend/.DS_Store
+frontend/*.suo
+frontend/*.ntvs*
+frontend/*.sw?
+frontend/*.njsproj
+frontend/*.sln
+frontend/node_modules/
+
+# 🐘 PHP
+backend/vendor/
+backend/.env
+backend/storage/
+backend/.idea/
+backend/.vscode/
+# backend/Dockerfile
+backend/node_modules/
+
+# 🐳 Docker
+*.log
+*.pid
+*.sock
+# docker-compose.yml
+.env
+.env.*
+
+# ⚙️ Configuración del sistema
+.DS_Store
+Thumbs.db
+
+# 🔍 Logs y temporales
+*.log
+*.bak
+*.tmp
+
+# 🧪 Tests
+coverage/
+jest-html-reporters-*
+
+# 📦 Otros
+*.zip
+*.tar
+*.gz
+*.env.local

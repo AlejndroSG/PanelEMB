@@ -1,0 +1,127 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Aguayo",
+      "email": "aguayo@emb.com",
+      "password": "$2a$10$oS.5WI4.8aqp6u.glfuVkOlcNsz2uodfcX/pvXBrcZQIRrVlB7Sr2",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "name": "Pepe",
+      "email": "pepe@emb.com",
+      "password": "$2a$10$WMVU7dHqfaM/wPuey2doMu.cKEtHaKj4aA4PbaJbaSvu7upIhn1/2",
+      "role": "user"
+    },
+    {
+      "id": 3,
+      "name": "Andrés",
+      "email": "andres@emb.com",
+      "password": "$2a$10$8SONQodzQlyzkB3sR9AeSOGltGgd/sOnB0qfbEXNiy9AL6w4JORpC",
+      "role": "user"
+    },
+    {
+      "id": 4,
+      "name": "Alex",
+      "email": "alex@emb.com",
+      "password": "$2a$10$i.ZYvZlURNh6m8ffKPU6E.aZ/koNK.BoGQxLquUMFybChsbNyZRmy",
+      "role": "user"
+    }
+  ],
+  "clients": [
+    {
+      "id": 1,
+      "name": "Cliente Ejemplo S.L.",
+      "email": "cliente@ejemplo.com",
+      "phone": "123456789",
+      "address": "Calle Ejemplo 123",
+      "city": "Madrid",
+      "postal_code": "28001",
+      "cif_nif": "B12345678",
+      "created_at": "2025-07-17T19:04:40.521Z"
+    },
+    {
+      "id": 2,
+      "name": "aguayo",
+      "email": "",
+      "phone": "",
+      "address": "",
+      "city": "",
+      "postal_code": "",
+      "cif_nif": "",
+      "created_at": "2025-07-18T10:06:06.164Z"
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "name": "Desarrollo Web",
+      "description": "Desarrollo de sitios web personalizados",
+      "price": 800,
+      "created_at": "2025-07-17T19:04:40.521Z",
+      "iva_rate": 21
+    },
+    {
+      "id": 2,
+      "name": "Diseño Gráfico",
+      "description": "Diseño de logotipos y material gráfico",
+      "price": 300,
+      "created_at": "2025-07-17T19:04:40.521Z",
+      "iva_rate": 21
+    },
+    {
+      "id": 3,
+      "name": "Consultoría IT",
+      "description": "Consultoría en tecnologías de la información",
+      "price": 120,
+      "created_at": "2025-07-17T19:04:40.521Z",
+      "iva_rate": 21
+    },
+    {
+      "id": 4,
+      "name": "Mantenimiento Web",
+      "description": "Mantenimiento y actualización de sitios web",
+      "price": 50,
+      "created_at": "2025-07-17T19:04:40.521Z",
+      "iva_rate": 21
+    }
+  ],
+  "invoices": [
+    {
+      "id": 1,
+      "invoice_number": "EMB-2025-000001",
+      "client_id": 2,
+      "due_date": "",
+      "items": [
+        {
+          "service_id": 1,
+          "quantity": 1,
+          "unit_price": 800,
+          "iva_rate": 21
+        }
+      ],
+      "status": "overdue",
+      "notes": "",
+      "created_at": "2025-07-18T10:07:41.527Z"
+    },
+    {
+      "id": 2,
+      "invoice_number": "EMB-2025-000002",
+      "client_id": 1,
+      "issue_date": "2025-07-18",
+      "due_date": "2025-07-26",
+      "items": [
+        {
+          "service_id": 4,
+          "quantity": 1,
+          "unit_price": 50,
+          "iva_rate": 21
+        }
+      ],
+      "status": "pending",
+      "notes": "",
+      "created_at": "2025-07-18T10:56:03.178Z"
+    }
+  ]
+}
