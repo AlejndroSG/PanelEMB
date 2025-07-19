@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Search, Edit, Trash2, CreditCard, Euro } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, CreditCard, Euro, Settings, X } from 'lucide-react';
 import { API_ENDPOINTS } from '../config/api';
 
 const Services = () => {
@@ -203,100 +203,157 @@ const Services = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              {editingService ? 'Editar Servicio' : 'Nuevo Servicio'}
-            </h2>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="form-group">
-                <label className="form-label">Nombre *</label>
-                <input
-                  type="text"
-                  required
-                  className="form-input"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Descripción</label>
-                <textarea
-                  className="form-input"
-                  rows="3"
-                  value={formData.description}
-                  onChange={(e) => setFormData({...formData, description: e.target.value})}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="form-group">
-                  <label className="form-label">Precio (€) *</label>
-                  <div className="relative">
-                    <Euro className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <input
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      required
-                      className="form-input pl-10"
-                      value={formData.price}
-                      onChange={(e) => setFormData({...formData, price: e.target.value})}
-                    />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[95vh] overflow-hidden">
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-emb-600 to-emb-700 px-8 py-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-white bg-opacity-20 p-2 rounded-lg">
+                    <Settings className="h-6 w-6 text-white" />
                   </div>
+                  <h2 className="text-2xl font-bold text-white">
+                    {editingService ? 'Editar Servicio' : 'Nuevo Servicio'}
+                  </h2>
                 </div>
-
-                <div className="form-group">
-                  <label className="form-label">IVA (%)</label>
-                  <select
-                    className="form-input"
-                    value={formData.iva_rate}
-                    onChange={(e) => setFormData({...formData, iva_rate: e.target.value})}
-                  >
-                    <option value="4">4% (Superreducido)</option>
-                    <option value="10">10% (Reducido)</option>
-                    <option value="21">21% (General)</option>
-                  </select>
-                </div>
-              </div>
-
-              {formData.price && (
-                <div className="bg-gray-50 p-3 rounded-lg">
-                  <div className="flex justify-between text-sm">
-                    <span>Precio base:</span>
-                    <span>{formatCurrency(parseFloat(formData.price) || 0)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>IVA ({formData.iva_rate}%):</span>
-                    <span>{formatCurrency((parseFloat(formData.price) || 0) * (parseFloat(formData.iva_rate) / 100))}</span>
-                  </div>
-                  <div className="flex justify-between font-semibold border-t border-gray-200 pt-2 mt-2">
-                    <span>Total:</span>
-                    <span className="text-emb-600">
-                      {formatCurrency((parseFloat(formData.price) || 0) * (1 + parseFloat(formData.iva_rate) / 100))}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex justify-end space-x-3 pt-4">
                 <button
                   type="button"
                   onClick={() => {
                     setShowModal(false);
                     resetForm();
                   }}
-                  className="btn-secondary"
+                  className="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-lg transition-colors duration-200"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
+            
+            {/* Modal Body */}
+            <div className="p-8 overflow-y-auto max-h-[calc(95vh-120px)]">
+            
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Información del Servicio */}
+              <div className="bg-gray-50 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <Settings className="h-5 w-5 mr-2 text-emb-600" />
+                  Información del Servicio
+                </h3>
+                <div className="space-y-4">
+                  <div className="form-group">
+                    <label className="form-label">Nombre del servicio *</label>
+                    <div className="input-with-icon">
+                      <Settings className="input-icon h-5 w-5" />
+                      <input
+                        type="text"
+                        required
+                        className="form-input"
+                        placeholder="Ej: Desarrollo Web, Consultoría SEO..."
+                        value={formData.name}
+                        onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Descripción del servicio</label>
+                    <textarea
+                      className="form-input"
+                      rows="4"
+                      placeholder="Describe detalladamente el servicio que ofreces, qué incluye, beneficios..."
+                      value={formData.description}
+                      onChange={(e) => setFormData({...formData, description: e.target.value})}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Información de Precios */}
+              <div className="bg-gray-50 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <Euro className="h-5 w-5 mr-2 text-emb-600" />
+                  Precios e Impuestos
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="form-group">
+                    <label className="form-label">Precio base (€) *</label>
+                    <div className="input-with-icon">
+                      <Euro className="input-icon h-5 w-5" />
+                      <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        required
+                        className="form-input"
+                        placeholder="0.00"
+                        value={formData.price}
+                        onChange={(e) => setFormData({...formData, price: e.target.value})}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Tipo de IVA</label>
+                    <select
+                      className="form-input"
+                      value={formData.iva_rate}
+                      onChange={(e) => setFormData({...formData, iva_rate: e.target.value})}
+                    >
+                      <option value="4">4% (Superreducido)</option>
+                      <option value="10">10% (Reducido)</option>
+                      <option value="21">21% (General)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Resumen de Precios */}
+              {formData.price && (
+                <div className="bg-gradient-to-r from-emb-50 to-emb-100 rounded-xl p-6 border border-emb-200">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <CreditCard className="h-5 w-5 mr-2 text-emb-600" />
+                    Resumen de Precios
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Precio base:</span>
+                      <span className="font-medium">{formatCurrency(parseFloat(formData.price) || 0)}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">IVA ({formData.iva_rate}%):</span>
+                      <span className="font-medium">{formatCurrency((parseFloat(formData.price) || 0) * (parseFloat(formData.iva_rate) / 100))}</span>
+                    </div>
+                    <div className="border-t border-emb-200 pt-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-semibold text-gray-900">Precio final:</span>
+                        <span className="text-2xl font-bold text-emb-600">
+                          {formatCurrency((parseFloat(formData.price) || 0) * (1 + parseFloat(formData.iva_rate) / 100))}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Modal Footer */}
+              <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200 mt-8">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowModal(false);
+                    resetForm();
+                  }}
+                  className="btn-secondary px-8"
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="btn-primary">
-                  {editingService ? 'Actualizar' : 'Crear'}
+                <button type="submit" className="btn-primary px-8 flex items-center space-x-2">
+                  <Settings className="h-4 w-4" />
+                  <span>{editingService ? 'Actualizar Servicio' : 'Crear Servicio'}</span>
                 </button>
               </div>
             </form>
+            </div>
           </div>
         </div>
       )}

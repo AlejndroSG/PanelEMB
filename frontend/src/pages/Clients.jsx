@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Search, Edit, Trash2, Mail, Phone, MapPin, Building } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, Mail, Phone, MapPin, Building, User, X } from 'lucide-react';
 import { API_ENDPOINTS } from '../config/api';
 
 const Clients = () => {
@@ -203,101 +203,174 @@ const Clients = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              {editingClient ? 'Editar Cliente' : 'Nuevo Cliente'}
-            </h2>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="form-group">
-                <label className="form-label">Nombre *</label>
-                <input
-                  type="text"
-                  required
-                  className="form-input"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Email</label>
-                <input
-                  type="email"
-                  className="form-input"
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Teléfono</label>
-                <input
-                  type="tel"
-                  className="form-input"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Dirección</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  value={formData.address}
-                  onChange={(e) => setFormData({...formData, address: e.target.value})}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="form-group">
-                  <label className="form-label">Ciudad</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={formData.city}
-                    onChange={(e) => setFormData({...formData, city: e.target.value})}
-                  />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[95vh] overflow-hidden">
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-emb-600 to-emb-700 px-8 py-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-white bg-opacity-20 p-2 rounded-lg">
+                    <User className="h-6 w-6 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-white">
+                    {editingClient ? 'Editar Cliente' : 'Nuevo Cliente'}
+                  </h2>
                 </div>
-                <div className="form-group">
-                  <label className="form-label">Código Postal</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={formData.postal_code}
-                    onChange={(e) => setFormData({...formData, postal_code: e.target.value})}
-                  />
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">CIF/NIF</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  value={formData.cif_nif}
-                  onChange={(e) => setFormData({...formData, cif_nif: e.target.value})}
-                />
-              </div>
-
-              <div className="flex justify-end space-x-3 pt-4">
                 <button
                   type="button"
                   onClick={() => {
                     setShowModal(false);
                     resetForm();
                   }}
-                  className="btn-secondary"
+                  className="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-lg transition-colors duration-200"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
+            
+            {/* Modal Body */}
+            <div className="p-8 overflow-y-auto max-h-[calc(95vh-120px)]">
+            
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Información Personal */}
+              <div className="bg-gray-50 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <User className="h-5 w-5 mr-2 text-emb-600" />
+                  Información Personal
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="form-group md:col-span-2">
+                    <label className="form-label">Nombre completo *</label>
+                    <div className="input-with-icon">
+                      <User className="input-icon h-5 w-5" />
+                      <input
+                        type="text"
+                        required
+                        className="form-input"
+                        placeholder="Ej: Juan Pérez García"
+                        value={formData.name}
+                        onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Email</label>
+                    <div className="input-with-icon">
+                      <Mail className="input-icon h-5 w-5" />
+                      <input
+                        type="email"
+                        className="form-input"
+                        placeholder="juan@ejemplo.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Teléfono</label>
+                    <div className="input-with-icon">
+                      <Phone className="input-icon h-5 w-5" />
+                      <input
+                        type="tel"
+                        className="form-input"
+                        placeholder="+34 123 456 789"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Información de Dirección */}
+              <div className="bg-gray-50 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <MapPin className="h-5 w-5 mr-2 text-emb-600" />
+                  Dirección
+                </h3>
+                <div className="space-y-4">
+                  <div className="form-group">
+                    <label className="form-label">Dirección completa</label>
+                    <div className="input-with-icon">
+                      <MapPin className="input-icon h-5 w-5" />
+                      <input
+                        type="text"
+                        className="form-input"
+                        placeholder="Calle, número, piso..."
+                        value={formData.address}
+                        onChange={(e) => setFormData({...formData, address: e.target.value})}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="form-group">
+                      <label className="form-label">Ciudad</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        placeholder="Madrid"
+                        value={formData.city}
+                        onChange={(e) => setFormData({...formData, city: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Código Postal</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        placeholder="28001"
+                        value={formData.postal_code}
+                        onChange={(e) => setFormData({...formData, postal_code: e.target.value})}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Información Fiscal */}
+              <div className="bg-gray-50 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <Building className="h-5 w-5 mr-2 text-emb-600" />
+                  Información Fiscal
+                </h3>
+                <div className="form-group">
+                  <label className="form-label">CIF/NIF</label>
+                  <div className="input-with-icon">
+                    <Building className="input-icon h-5 w-5" />
+                    <input
+                      type="text"
+                      className="form-input"
+                      placeholder="12345678A o B12345678"
+                      value={formData.cif_nif}
+                      onChange={(e) => setFormData({...formData, cif_nif: e.target.value})}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200 mt-8">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowModal(false);
+                    resetForm();
+                  }}
+                  className="btn-secondary px-8"
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="btn-primary">
-                  {editingClient ? 'Actualizar' : 'Crear'}
+                <button type="submit" className="btn-primary px-8 flex items-center space-x-2">
+                  <User className="h-4 w-4" />
+                  <span>{editingClient ? 'Actualizar Cliente' : 'Crear Cliente'}</span>
                 </button>
               </div>
             </form>
+            </div>
           </div>
         </div>
       )}

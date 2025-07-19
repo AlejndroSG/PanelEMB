@@ -185,60 +185,93 @@ function generateInvoicePDF(invoice, client, services) {
   
   // Configuración de colores EMB más profesionales
   const embBlue = [41, 128, 185];
+  const embDark = [23, 54, 93];
   const lightBlue = [174, 213, 239];
   const darkGray = [52, 73, 94];
-  const lightGray = [236, 240, 241];
+  const lightGray = [248, 249, 250];
   const white = [255, 255, 255];
+  const accent = [46, 204, 113];
   
-  // Header profesional con gradiente visual
-  doc.setFillColor(...embBlue);
-  doc.rect(0, 0, 210, 50, 'F');
+  // Header profesional con gradiente mejorado
+  doc.setFillColor(...embDark);
+  doc.rect(0, 0, 210, 55, 'F');
   
-  // Logo y nombre de la empresa
-  doc.setTextColor(...white);
-  doc.setFontSize(32);
-  doc.setFont('helvetica', 'bold');
-  doc.text('EMB', 20, 30);
+  // Banda decorativa superior
+  doc.setFillColor(...accent);
+  doc.rect(0, 0, 210, 3, 'F');
   
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Desarrollo Web & Marketing Digital', 20, 40);
-  
-  // Información de contacto de la empresa
-  doc.setFontSize(10);
-  doc.text('info@emb.es | +34 123 456 789 | www.emb.es', 20, 47);
-  
-  // Título FACTURA con fondo
+  // Logo EMB mejorado con diseño
   doc.setFillColor(...white);
-  doc.roundedRect(140, 15, 60, 20, 3, 3, 'F');
+  doc.roundedRect(15, 12, 50, 30, 5, 5, 'F');
+  
+  // Logo text con mejor tipografía
   doc.setTextColor(...embBlue);
-  doc.setFontSize(24);
+  doc.setFontSize(28);
   doc.setFont('helvetica', 'bold');
-  doc.text('FACTURA', 150, 28);
+  doc.text('EMB', 25, 32);
   
-  // Número de factura
-  doc.setFontSize(12);
-  doc.setFont('helvetica', 'normal');
-  doc.text(`Nº ${invoice.invoice_number}`, 150, 35);
-  
-  // Línea separadora
-  doc.setDrawColor(...embBlue);
-  doc.setLineWidth(1);
-  doc.line(20, 55, 190, 55);
-  
-  // Sección de información del cliente con fondo
-  doc.setFillColor(...lightGray);
-  doc.roundedRect(15, 65, 85, 40, 3, 3, 'F');
-  
-  doc.setTextColor(...darkGray);
-  doc.setFontSize(14);
+  // Información de la empresa con mejor layout
+  doc.setTextColor(...white);
+  doc.setFontSize(16);
   doc.setFont('helvetica', 'bold');
-  doc.text('FACTURAR A:', 20, 75);
+  doc.text('EMB DIGITAL SOLUTIONS', 75, 25);
   
   doc.setFontSize(11);
   doc.setFont('helvetica', 'normal');
-  let yPos = 82;
+  doc.text('Desarrollo Web • Marketing Digital • Consultoría IT', 75, 33);
+  
+  // Información de contacto mejorada
+  doc.setFontSize(9);
+  doc.text('📧 info@emb.es  📞 +34 123 456 789  🌐 www.emb.es', 75, 42);
+  doc.text('📍 Calle Innovación 123, 28001 Madrid, España', 75, 48);
+  
+  // Título FACTURA mejorado
+  doc.setFillColor(...accent);
+  doc.roundedRect(135, 15, 70, 25, 5, 5, 'F');
+  doc.setTextColor(...white);
+  doc.setFontSize(20);
+  doc.setFont('helvetica', 'bold');
+  doc.text('FACTURA', 148, 30);
+  
+  // Número de factura con mejor diseño
+  doc.setFillColor(...white);
+  doc.roundedRect(135, 42, 70, 10, 3, 3, 'F');
+  doc.setTextColor(...embDark);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`Nº ${invoice.invoice_number}`, 148, 48);
+  
+  // Línea separadora decorativa
+  doc.setDrawColor(...accent);
+  doc.setLineWidth(2);
+  doc.line(15, 60, 195, 60);
+  
+  // Línea secundaria
+  doc.setDrawColor(...lightBlue);
+  doc.setLineWidth(0.5);
+  doc.line(15, 62, 195, 62);
+  
+  // Sección de información del cliente mejorada
+  doc.setFillColor(...lightGray);
+  doc.roundedRect(15, 70, 85, 45, 5, 5, 'F');
+  
+  // Header del cliente con icono
+  doc.setFillColor(...embBlue);
+  doc.roundedRect(15, 70, 85, 12, 5, 5, 'F');
+  doc.setTextColor(...white);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.text('👤 FACTURAR A:', 20, 78);
+  
+  // Información del cliente
+  doc.setTextColor(...darkGray);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  let yPos = 88;
   doc.text(client.name || 'Cliente', 20, yPos);
+  
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
   if (client.email) {
     yPos += 6;
     doc.text(`📧 ${client.email}`, 20, yPos);
@@ -251,57 +284,90 @@ function generateInvoicePDF(invoice, client, services) {
     yPos += 6;
     doc.text(`📍 ${client.address}`, 20, yPos);
   }
+  if (client.cif_nif) {
+    yPos += 6;
+    doc.text(`🏢 CIF/NIF: ${client.cif_nif}`, 20, yPos);
+  }
   
-  // Sección de fechas con fondo
+  // Sección de fechas mejorada
   doc.setFillColor(...lightGray);
-  doc.roundedRect(110, 65, 80, 40, 3, 3, 'F');
+  doc.roundedRect(110, 70, 85, 45, 5, 5, 'F');
   
+  // Header de detalles con icono
+  doc.setFillColor(...embBlue);
+  doc.roundedRect(110, 70, 85, 12, 5, 5, 'F');
+  doc.setTextColor(...white);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.text('📅 DETALLES DE FACTURA:', 115, 78);
+  
+  // Información de fechas con mejor diseño
+  doc.setTextColor(...darkGray);
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  
+  // Fecha de emisión
+  doc.text('Fecha de emisión:', 115, 90);
+  doc.setFont('helvetica', 'bold');
+  doc.text(new Date(invoice.issue_date).toLocaleDateString('es-ES'), 165, 90);
+  
+  // Fecha de vencimiento
+  doc.setFont('helvetica', 'normal');
+  doc.text('Fecha de vencimiento:', 115, 97);
+  doc.setFont('helvetica', 'bold');
+  doc.text(new Date(invoice.due_date).toLocaleDateString('es-ES'), 165, 97);
+  
+  // Estado de la factura con badge
+  doc.setFont('helvetica', 'normal');
+  doc.text('Estado:', 115, 104);
+  
+  const statusText = {
+    pending: 'PENDIENTE',
+    paid: 'PAGADA',
+    overdue: 'VENCIDA',
+    cancelled: 'CANCELADA'
+  };
+  
+  const statusColors = {
+    pending: [255, 193, 7],
+    paid: [40, 167, 69],
+    overdue: [220, 53, 69],
+    cancelled: [108, 117, 125]
+  };
+  
+  const statusColor = statusColors[invoice.status] || statusColors.pending;
+  doc.setFillColor(...statusColor);
+  doc.roundedRect(155, 100, 35, 8, 2, 2, 'F');
+  doc.setTextColor(...white);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
+  doc.text(statusText[invoice.status] || 'PENDIENTE', 158, 105);
+  
+  // Tabla de items con diseño profesional mejorado
+  let yPosition = 125;
+  
+  // Título de la tabla con icono
+  doc.setFillColor(...embDark);
+  doc.roundedRect(15, yPosition, 180, 15, 3, 3, 'F');
+  doc.setTextColor(...white);
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.text('DETALLES DE FACTURA:', 115, 75);
+  doc.text('📋 DETALLE DE SERVICIOS', 20, yPosition + 10);
   
-  doc.setFontSize(11);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Fecha de emisión:', 115, 85);
-  doc.text(new Date(invoice.issue_date).toLocaleDateString('es-ES'), 160, 85);
-  
-  doc.text('Fecha de vencimiento:', 115, 92);
-  doc.text(new Date(invoice.due_date).toLocaleDateString('es-ES'), 160, 92);
-  
-  // Estado de la factura
-  doc.text('Estado:', 115, 99);
-  const statusText = {
-    pending: 'Pendiente',
-    paid: 'Pagada',
-    overdue: 'Vencida',
-    cancelled: 'Cancelada'
-  };
-  doc.setFont('helvetica', 'bold');
-  doc.text(statusText[invoice.status] || 'Pendiente', 140, 99);
-  
-  // Tabla de items con diseño profesional
-  let yPosition = 115;
-  
-  // Título de la tabla
-  doc.setTextColor(...darkGray);
-  doc.setFontSize(16);
-  doc.setFont('helvetica', 'bold');
-  doc.text('DETALLE DE SERVICIOS', 20, yPosition);
-  
-  yPosition += 10;
+  yPosition += 20;
   
   // Headers de la tabla con mejor diseño
-  doc.setFillColor(...embBlue);
-  doc.rect(15, yPosition, 180, 12, 'F');
+  doc.setFillColor(...accent);
+  doc.roundedRect(15, yPosition, 180, 12, 2, 2, 'F');
   
   doc.setTextColor(...white);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(10);
+  doc.setFontSize(9);
   doc.text('DESCRIPCIÓN', 20, yPosition + 8);
-  doc.text('CANT.', 110, yPosition + 8);
-  doc.text('PRECIO', 130, yPosition + 8);
-  doc.text('IVA', 150, yPosition + 8);
-  doc.text('TOTAL', 170, yPosition + 8);
+  doc.text('CANT.', 115, yPosition + 8);
+  doc.text('PRECIO', 135, yPosition + 8);
+  doc.text('IVA', 155, yPosition + 8);
+  doc.text('TOTAL', 175, yPosition + 8);
   
   yPosition += 15;
   
@@ -408,33 +474,63 @@ function generateInvoicePDF(invoice, client, services) {
     yPosition += 30;
   }
   
-  // Footer profesional
-  const footerY = 270;
+  // Footer profesional mejorado
+  const footerY = 265;
   
-  // Línea separadora del footer
-  doc.setDrawColor(...embBlue);
-  doc.setLineWidth(0.5);
-  doc.line(20, footerY - 10, 190, footerY - 10);
+  // Sección de información adicional
+  doc.setFillColor(...lightGray);
+  doc.roundedRect(15, footerY - 25, 180, 20, 3, 3, 'F');
   
-  // Información de la empresa en el footer
-  doc.setFillColor(...embBlue);
-  doc.rect(0, footerY, 210, 27, 'F');
-  
-  doc.setTextColor(...white);
-  doc.setFontSize(10);
+  doc.setTextColor(...darkGray);
+  doc.setFontSize(9);
   doc.setFont('helvetica', 'bold');
-  doc.text('EMB - Desarrollo Web & Marketing Digital', 20, footerY + 8);
+  doc.text('CONDICIONES DE PAGO:', 20, footerY - 18);
   
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
-  doc.text('CIF: B12345678 | Registro Mercantil: Madrid, Tomo 1234, Folio 567, Sección 8, Hoja M-12345', 20, footerY + 15);
-  doc.text('Dirección: Calle Ejemplo 123, 28001 Madrid | Tel: +34 123 456 789 | Email: info@emb.es', 20, footerY + 20);
+  doc.text('Pago a 30 días desde la fecha de emisión. Transferencia bancaria o domiciliación SEPA.', 20, footerY - 12);
+  doc.text('Recargos por demora según Ley 3/2004. Retención IRPF aplicable según legislación vigente.', 20, footerY - 7);
   
-  // Mensaje de agradecimiento
+  // Línea separadora decorativa
+  doc.setDrawColor(...accent);
+  doc.setLineWidth(2);
+  doc.line(15, footerY - 2, 195, footerY - 2);
+  
+  // Footer principal con gradiente
+  doc.setFillColor(...embDark);
+  doc.rect(0, footerY, 210, 32, 'F');
+  
+  // Banda decorativa inferior
+  doc.setFillColor(...accent);
+  doc.rect(0, footerY + 29, 210, 3, 'F');
+  
+  // Logo en el footer
+  doc.setFillColor(...white);
+  doc.roundedRect(15, footerY + 5, 30, 20, 3, 3, 'F');
+  doc.setTextColor(...embBlue);
+  doc.setFontSize(16);
+  doc.setFont('helvetica', 'bold');
+  doc.text('EMB', 22, footerY + 17);
+  
+  // Información de la empresa
   doc.setTextColor(...white);
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'italic');
-  doc.text('¡Gracias por confiar en EMB para sus proyectos digitales!', 140, footerY + 8);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.text('EMB DIGITAL SOLUTIONS', 55, footerY + 10);
+  
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.text('CIF: B12345678 • Registro Mercantil de Madrid', 55, footerY + 16);
+  doc.text('Calle Innovación 123, 28001 Madrid, España', 55, footerY + 20);
+  doc.text('📞 +34 123 456 789 • 📧 info@emb.es • 🌐 www.emb.es', 55, footerY + 24);
+  
+  // Mensaje de agradecimiento mejorado
+  doc.setFillColor(...accent);
+  doc.roundedRect(140, footerY + 8, 60, 12, 3, 3, 'F');
+  doc.setTextColor(...white);
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.text('¡Gracias por su confianza!', 145, footerY + 16);
   
   return doc;
 }

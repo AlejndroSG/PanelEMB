@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Search, Eye, Edit, Trash2, Download, Filter, Calendar } from 'lucide-react';
+import { Plus, Search, Eye, Edit, Trash2, Download, Filter, Calendar, FileText, X } from 'lucide-react';
 import { API_ENDPOINTS } from '../config/api';
 
 const Invoices = () => {
@@ -504,9 +504,32 @@ const Invoices = () => {
 
       {/* Create Invoice Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Nueva Factura</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[95vh] overflow-hidden">
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-emb-600 to-emb-700 px-8 py-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-white bg-opacity-20 p-2 rounded-lg">
+                    <FileText className="h-6 w-6 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-white">Nueva Factura</h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowCreateModal(false);
+                    resetForm();
+                  }}
+                  className="text-white hover:bg-white hover:bg-opacity-20 p-2 rounded-lg transition-colors duration-200"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
+            
+            {/* Modal Body */}
+            <div className="p-8 overflow-y-auto max-h-[calc(95vh-120px)]">
             
             <form onSubmit={handleCreateInvoice} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -548,34 +571,40 @@ const Invoices = () => {
                 </div>
               </div>
 
-              <div>
-                <label className="form-label">Notas *</label>
+              <div className="form-group">
+                <label className="form-label">Notas adicionales</label>
                 <textarea
-                  required
                   className="form-input"
-                  rows="3"
-                  placeholder="Ingrese detalles adicionales sobre la factura..."
+                  rows="4"
+                  placeholder="Añade información adicional sobre la factura, términos de pago, condiciones especiales..."
                   value={formData.notes}
                   onChange={(e) => setFormData({...formData, notes: e.target.value})}
                 />
               </div>
 
               {/* Items */}
-              <div>
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-medium">Items de la factura</h3>
+              <div className="bg-gray-50 rounded-xl p-6">
+                <div className="flex justify-between items-center mb-6">
+                  <div className="flex items-center space-x-3">
+                    <div className="bg-emb-100 p-2 rounded-lg">
+                      <Plus className="h-5 w-5 text-emb-600" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900">Items de la factura</h3>
+                  </div>
                   <button
                     type="button"
                     onClick={addItem}
-                    className="btn-secondary text-sm"
+                    className="btn-primary text-sm flex items-center space-x-2"
                   >
-                    Agregar Item
+                    <Plus className="h-4 w-4" />
+                    <span>Agregar Item</span>
                   </button>
                 </div>
 
                 <div className="space-y-4">
                   {formData.items.map((item, index) => (
-                    <div key={index} className="grid grid-cols-1 md:grid-cols-6 gap-4 p-4 border border-gray-200 rounded-lg">
+                    <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                      <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
                       <div className="md:col-span-2">
                         <label className="form-label">Servicio *</label>
                         <select
@@ -639,6 +668,7 @@ const Invoices = () => {
                           Eliminar
                         </button>
                       </div>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -654,22 +684,25 @@ const Invoices = () => {
                 )}
               </div>
 
-              <div className="flex justify-end space-x-3 pt-4">
+              {/* Modal Footer */}
+              <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200 mt-8">
                 <button
                   type="button"
                   onClick={() => {
                     setShowCreateModal(false);
                     resetForm();
                   }}
-                  className="btn-secondary"
+                  className="btn-secondary px-8"
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="btn-primary">
-                  Crear Factura
+                <button type="submit" className="btn-primary px-8 flex items-center space-x-2">
+                  <FileText className="h-4 w-4" />
+                  <span>Crear Factura</span>
                 </button>
               </div>
             </form>
+            </div>
           </div>
         </div>
       )}
