@@ -210,7 +210,7 @@ const Clients = () => {
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
+              <div className="form-group">
                 <label className="form-label">Nombre *</label>
                 <input
                   type="text"
@@ -221,7 +221,7 @@ const Clients = () => {
                 />
               </div>
 
-              <div>
+              <div className="form-group">
                 <label className="form-label">Email</label>
                 <input
                   type="email"
@@ -231,7 +231,7 @@ const Clients = () => {
                 />
               </div>
 
-              <div>
+              <div className="form-group">
                 <label className="form-label">Teléfono</label>
                 <input
                   type="tel"
@@ -241,7 +241,7 @@ const Clients = () => {
                 />
               </div>
 
-              <div>
+              <div className="form-group">
                 <label className="form-label">Dirección</label>
                 <input
                   type="text"
@@ -252,7 +252,7 @@ const Clients = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div>
+                <div className="form-group">
                   <label className="form-label">Ciudad</label>
                   <input
                     type="text"
@@ -261,7 +261,7 @@ const Clients = () => {
                     onChange={(e) => setFormData({...formData, city: e.target.value})}
                   />
                 </div>
-                <div>
+                <div className="form-group">
                   <label className="form-label">Código Postal</label>
                   <input
                     type="text"
@@ -272,7 +272,7 @@ const Clients = () => {
                 </div>
               </div>
 
-              <div>
+              <div className="form-group">
                 <label className="form-label">CIF/NIF</label>
                 <input
                   type="text"

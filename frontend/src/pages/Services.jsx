@@ -210,7 +210,7 @@ const Services = () => {
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
+              <div className="form-group">
                 <label className="form-label">Nombre *</label>
                 <input
                   type="text"
@@ -221,7 +221,7 @@ const Services = () => {
                 />
               </div>
 
-              <div>
+              <div className="form-group">
                 <label className="form-label">Descripción</label>
                 <textarea
                   className="form-input"
@@ -232,7 +232,7 @@ const Services = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div>
+                <div className="form-group">
                   <label className="form-label">Precio (€) *</label>
                   <div className="relative">
                     <Euro className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -248,7 +248,7 @@ const Services = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="form-group">
                   <label className="form-label">IVA (%)</label>
                   <select
                     className="form-input"

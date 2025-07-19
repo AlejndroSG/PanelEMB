@@ -407,7 +407,7 @@ const Invoices = () => {
           {filteredInvoices.map((invoice) => (
             <div key={invoice.id} className="bg-gray-50 rounded-lg p-4 space-y-3">
               <div className="flex justify-between items-start">
-                <div>
+                <div className="form-group">
                   <p className="text-sm font-medium text-gray-900">#{invoice.invoice_number}</p>
                   <p className="text-xs text-gray-500 truncate">{invoice.client_name}</p>
                 </div>
@@ -422,10 +422,10 @@ const Invoices = () => {
               </div>
               
               <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
-                <div>
+                <div className="form-group">
                   <span className="font-medium">Fecha:</span> {formatDate(invoice.issue_date)}
                 </div>
-                <div>
+                <div className="form-group">
                   <span className="font-medium">Vence:</span> {formatDate(invoice.due_date)}
                 </div>
               </div>
@@ -485,7 +485,7 @@ const Invoices = () => {
             
             <form onSubmit={handleCreateInvoice} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
+                <div className="form-group">
                   <label className="form-label">Cliente *</label>
                   <select
                     required
@@ -500,7 +500,7 @@ const Invoices = () => {
                   </select>
                 </div>
 
-                <div>
+                <div className="form-group">
                   <label className="form-label">Fecha de emisión *</label>
                   <input
                     type="date"
@@ -511,7 +511,7 @@ const Invoices = () => {
                   />
                 </div>
 
-                <div>
+                <div className="form-group">
                   <label className="form-label">Fecha de vencimiento *</label>
                   <input
                     type="date"
@@ -566,7 +566,7 @@ const Invoices = () => {
                         </select>
                       </div>
 
-                      <div>
+                      <div className="form-group">
                         <label className="form-label">Cantidad *</label>
                         <input
                           type="number"
@@ -578,7 +578,7 @@ const Invoices = () => {
                         />
                       </div>
 
-                      <div>
+                      <div className="form-group">
                         <label className="form-label">Precio unitario *</label>
                         <input
                           type="number"
@@ -591,7 +591,7 @@ const Invoices = () => {
                         />
                       </div>
 
-                      <div>
+                      <div className="form-group">
                         <label className="form-label">IVA (%) *</label>
                         <input
                           type="number"
@@ -717,7 +717,7 @@ const Invoices = () => {
                       return (
                         <tr key={index}>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div>
+                            <div className="form-group">
                               <div className="text-sm font-medium text-gray-900">{item.service_name}</div>
                               {item.service_description && (
                                 <div className="text-sm text-gray-500">{item.service_description}</div>
