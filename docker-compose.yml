@@ -4,24 +4,69 @@ services:
   backend:
     build:
       context: ./backend
+      dockerfile: Dockerfile
+    container_name: emb-backend
     ports:
       - "3002:3002"
     volumes:
-      - ./backend:/usr/src/app
-      - ./backend/database:/usr/src/app/database
+      - backend_data:/usr/src/app/database
+      - backend_logs:/usr/src/app/logs
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - PORT=3002
       - JWT_SECRET=embsecret2025
     restart: unless-stopped
+    networks:
+      - emb-network
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile
+    container_name: emb-frontend
     ports:
       - "5173:5173"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
+      - VITE_API_URL=https://panel.embdevs.com
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     restart: unless-stopped
+    networks:
+      - emb-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5173')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  backend_data:
+    driver: local
+  backend_logs:
+    driver: local
+
+networks:
+  emb-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
