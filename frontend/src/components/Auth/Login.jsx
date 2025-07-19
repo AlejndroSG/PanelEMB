@@ -66,16 +66,14 @@ const Login = () => {
               <label htmlFor="email" className="form-label">
                 Email
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                </div>
+              <div className="input-with-icon">
+                <Mail className="input-icon h-5 w-5" />
                 <input
                   id="email"
                   name="email"
                   type="email"
                   required
-                  className="form-input pl-10"
+                  className="form-input"
                   placeholder="tu@emb.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -87,16 +85,14 @@ const Login = () => {
               <label htmlFor="password" className="form-label">
                 Contraseña
               </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
+              <div className="input-with-icon">
+                <Lock className="input-icon h-5 w-5" />
                 <input
                   id="password"
                   name="password"
                   type="password"
                   required
-                  className="form-input pl-10"
+                  className="form-input"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -107,9 +103,16 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-              {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Iniciando sesión...
+                </div>
+              ) : (
+                'Iniciar Sesión'
+              )}
             </button>
           </div>
         </form>

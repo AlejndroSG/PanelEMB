@@ -299,12 +299,12 @@ const Invoices = () => {
       {/* Filters */}
       <div className="card">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          <div className="relative sm:col-span-2 lg:col-span-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <div className="input-with-icon flex-1">
+            <Search className="input-icon h-5 w-5" />
             <input
               type="text"
               placeholder="Buscar facturas..."
-              className="form-input pl-10 w-full"
+              className="form-input w-full"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -358,12 +358,27 @@ const Invoices = () => {
                   <td className="table-cell">{invoice.client_name}</td>
                   <td className="table-cell">{formatDate(invoice.issue_date)}</td>
                   <td className="table-cell">{formatDate(invoice.due_date)}</td>
-                  <td className="table-cell font-semibold">{formatCurrency(invoice.total)}</td>
                   <td className="table-cell">
+                    <div className="price-display">
+                      {formatCurrency(invoice.total).replace('€', '')}
+                      <span className="currency-symbol">€</span>
+                    </div>
+                  </td>
+                  <td className="table-cell">
+                    <div className={`inline-flex items-center ${
+                      invoice.status === 'paid' ? 'status-paid' :
+                      invoice.status === 'pending' ? 'status-pending' :
+                      invoice.status === 'overdue' ? 'status-overdue' :
+                      'bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold'
+                    }`}>
+                      {invoice.status === 'paid' ? 'Pagada' :
+                       invoice.status === 'pending' ? 'Pendiente' :
+                       invoice.status === 'overdue' ? 'Vencida' : 'Cancelada'}
+                    </div>
                     <select
                       value={invoice.status}
                       onChange={(e) => handleStatusChange(invoice.id, e.target.value)}
-                      className="text-xs border-none bg-transparent focus:ring-0"
+                      className="absolute opacity-0 w-full h-full cursor-pointer"
                     >
                       <option value="pending">Pendiente</option>
                       <option value="paid">Pagada</option>
@@ -405,18 +420,28 @@ const Invoices = () => {
         {/* Vista de cards para móvil y tablet */}
         <div className="lg:hidden space-y-4">
           {filteredInvoices.map((invoice) => (
-            <div key={invoice.id} className="bg-gray-50 rounded-lg p-4 space-y-3">
+            <div key={invoice.id} className="invoice-item">
               <div className="flex justify-between items-start">
                 <div className="form-group">
-                  <p className="text-sm font-medium text-gray-900">#{invoice.invoice_number}</p>
-                  <p className="text-xs text-gray-500 truncate">{invoice.client_name}</p>
+                  <p className="text-lg font-bold text-gray-900">#{invoice.invoice_number}</p>
+                  <p className="text-sm text-gray-600 truncate">{invoice.client_name}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-semibold text-gray-900">
-                    {formatCurrency(invoice.total)}
-                  </p>
-                  <div className="mt-1">
-                    {getStatusBadge(invoice.status)}
+                  <div className="price-display text-xl">
+                    {formatCurrency(invoice.total).replace('€', '')}
+                    <span className="currency-symbol">€</span>
+                  </div>
+                  <div className="mt-2">
+                    <div className={`inline-flex items-center ${
+                      invoice.status === 'paid' ? 'status-paid' :
+                      invoice.status === 'pending' ? 'status-pending' :
+                      invoice.status === 'overdue' ? 'status-overdue' :
+                      'bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold'
+                    }`}>
+                      {invoice.status === 'paid' ? 'Pagada' :
+                       invoice.status === 'pending' ? 'Pendiente' :
+                       invoice.status === 'overdue' ? 'Vencida' : 'Cancelada'}
+                    </div>
                   </div>
                 </div>
               </div>

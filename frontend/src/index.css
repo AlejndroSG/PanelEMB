@@ -10,32 +10,103 @@ body {
 /* Estilos mejorados para formularios */
 @layer components {
   .form-label {
-    @apply block text-sm font-medium text-gray-700 mb-2;
+    @apply block text-sm font-semibold text-gray-800 mb-3 tracking-wide;
   }
 
   .form-input {
-    @apply block w-full px-4 py-3 border-2 border-gray-300 rounded-lg shadow-sm 
-           focus:border-emb-600 focus:ring focus:ring-emb-300 focus:ring-opacity-50
-           placeholder:text-gray-400 transition duration-200;
+    @apply block w-full px-5 py-4 border-2 border-gray-200 rounded-xl shadow-sm 
+           focus:border-emb-500 focus:ring-2 focus:ring-emb-200 focus:ring-opacity-60
+           placeholder:text-gray-400 transition-all duration-300 ease-in-out
+           bg-gray-50 hover:bg-white hover:border-gray-300
+           text-gray-800 font-medium;
   }
 
   /* Contenedores de formularios con espaciado mejorado */
   .form-group {
-    @apply mb-4;
+    @apply mb-6;
   }
   
   /* Estilos para inputs con errores */
   .form-input-error {
-    @apply border-red-500 focus:border-red-500 focus:ring-red-200;
+    @apply border-red-400 focus:border-red-500 focus:ring-red-200 bg-red-50;
   }
   
   /* Mensaje de error */
   .form-error-message {
-    @apply mt-1 text-xs text-red-600;
+    @apply mt-2 text-sm text-red-600 font-medium;
   }
   
   /* Estilos específicos para campos de selección */
   select.form-input {
-    @apply appearance-none bg-white pr-10;
+    @apply appearance-none bg-gray-50 hover:bg-white pr-12 cursor-pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+  }
+  
+  /* Textarea específico */
+  textarea.form-input {
+    @apply resize-none min-h-[120px];
+  }
+  
+  /* Botones mejorados */
+  .btn-primary {
+    @apply bg-gradient-to-r from-emb-600 to-emb-700 hover:from-emb-700 hover:to-emb-800
+           text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl
+           transform hover:-translate-y-0.5 transition-all duration-200 ease-in-out
+           focus:outline-none focus:ring-4 focus:ring-emb-300;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl
+           border-2 border-gray-200 hover:border-gray-300 shadow-md hover:shadow-lg
+           transform hover:-translate-y-0.5 transition-all duration-200 ease-in-out
+           focus:outline-none focus:ring-4 focus:ring-gray-300;
+  }
+  
+  /* Cards mejoradas */
+  .card {
+    @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300
+           border border-gray-100 p-6;
+  }
+  
+  /* Inputs con iconos */
+  .input-with-icon {
+    @apply relative;
+  }
+  
+  .input-with-icon .form-input {
+    @apply pl-12;
+  }
+  
+  .input-icon {
+    @apply absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10;
+  }
+  
+  /* Estilos para facturas y precios */
+  .price-display {
+    @apply text-2xl font-bold text-gray-900;
+  }
+  
+  .currency-symbol {
+    @apply text-lg font-semibold text-emb-600 ml-1;
+  }
+  
+  .invoice-item {
+    @apply bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border-l-4 border-emb-500;
+  }
+  
+  /* Estados de facturas */
+  .status-paid {
+    @apply bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold;
+  }
+  
+  .status-pending {
+    @apply bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold;
+  }
+  
+  .status-overdue {
+    @apply bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold;
   }
 }
