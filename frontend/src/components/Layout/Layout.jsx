@@ -15,16 +15,21 @@ const Layout = ({ children }) => {
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar - Hidden on mobile by default, visible on desktop */}
+      <div className="hidden lg:block lg:w-64 lg:flex-shrink-0">
+        <Sidebar onClose={() => setSidebarOpen(false)} />
+      </div>
+
+      {/* Mobile Sidebar */}
       <div className={`
-        fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
+        fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out lg:hidden
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <Sidebar onClose={() => setSidebarOpen(false)} />
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col overflow-hidden lg:ml-0">
+      <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="bg-white shadow-sm border-b border-gray-200 px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
