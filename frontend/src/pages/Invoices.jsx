@@ -280,16 +280,16 @@ const Invoices = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-3 sm:space-y-0">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Facturas</h1>
-          <p className="text-gray-600">Gestiona todas tus facturas</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Facturas</h1>
+          <p className="text-gray-600 text-sm sm:text-base">Gestiona todas tus facturas</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="btn-primary flex items-center space-x-2"
+          className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto"
         >
           <Plus className="h-4 w-4" />
           <span>Nueva Factura</span>
@@ -298,20 +298,20 @@ const Invoices = () => {
 
       {/* Filters */}
       <div className="card">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="relative sm:col-span-2 lg:col-span-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
               type="text"
               placeholder="Buscar facturas..."
-              className="form-input pl-10"
+              className="form-input pl-10 w-full"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           
           <select
-            className="form-input"
+            className="form-input w-full"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
@@ -322,14 +322,14 @@ const Invoices = () => {
             <option value="cancelled">Canceladas</option>
           </select>
           
-          <div className="flex space-x-2">
-            <button className="btn-secondary flex items-center space-x-2">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 sm:col-span-2 lg:col-span-1">
+            <button className="btn-secondary flex items-center justify-center space-x-2 w-full sm:w-auto">
               <Filter className="h-4 w-4" />
-              <span>Filtros</span>
+              <span className="hidden sm:inline">Filtros</span>
             </button>
-            <button className="btn-secondary flex items-center space-x-2">
+            <button className="btn-secondary flex items-center justify-center space-x-2 w-full sm:w-auto">
               <Download className="h-4 w-4" />
-              <span>Exportar</span>
+              <span className="hidden sm:inline">Exportar</span>
             </button>
           </div>
         </div>
@@ -337,7 +337,8 @@ const Invoices = () => {
 
       {/* Invoices Table */}
       <div className="card">
-        <div className="overflow-x-auto">
+        {/* Vista de tabla para desktop */}
+        <div className="hidden lg:block overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
@@ -399,13 +400,81 @@ const Invoices = () => {
               ))}
             </tbody>
           </table>
-          
-          {filteredInvoices.length === 0 && (
-            <div className="text-center py-8">
-              <div className="text-gray-500">No se encontraron facturas</div>
-            </div>
-          )}
         </div>
+
+        {/* Vista de cards para móvil y tablet */}
+        <div className="lg:hidden space-y-4">
+          {filteredInvoices.map((invoice) => (
+            <div key={invoice.id} className="bg-gray-50 rounded-lg p-4 space-y-3">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-sm font-medium text-gray-900">#{invoice.invoice_number}</p>
+                  <p className="text-xs text-gray-500 truncate">{invoice.client_name}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-semibold text-gray-900">
+                    {formatCurrency(invoice.total)}
+                  </p>
+                  <div className="mt-1">
+                    {getStatusBadge(invoice.status)}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                <div>
+                  <span className="font-medium">Fecha:</span> {formatDate(invoice.issue_date)}
+                </div>
+                <div>
+                  <span className="font-medium">Vence:</span> {formatDate(invoice.due_date)}
+                </div>
+              </div>
+              
+              <div className="flex justify-between items-center pt-2 border-t border-gray-200">
+                <select
+                  value={invoice.status}
+                  onChange={(e) => handleStatusChange(invoice.id, e.target.value)}
+                  className="text-xs border border-gray-300 rounded px-2 py-1 bg-white"
+                >
+                  <option value="pending">Pendiente</option>
+                  <option value="paid">Pagada</option>
+                  <option value="overdue">Vencida</option>
+                  <option value="cancelled">Cancelada</option>
+                </select>
+                
+                <div className="flex space-x-2">
+                  <button 
+                    onClick={() => handleViewInvoice(invoice.id)}
+                    className="p-2 text-gray-400 hover:text-emb-600 bg-white rounded border"
+                    title="Ver factura"
+                  >
+                    <Eye className="h-4 w-4" />
+                  </button>
+                  <button 
+                    onClick={() => handleDownloadInvoice(invoice.id, invoice.invoice_number)}
+                    className="p-2 text-gray-400 hover:text-green-600 bg-white rounded border"
+                    title="Descargar PDF"
+                  >
+                    <Download className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => handleDeleteInvoice(invoice.id)}
+                    className="p-2 text-gray-400 hover:text-red-600 bg-white rounded border"
+                    title="Eliminar factura"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+          
+        {filteredInvoices.length === 0 && (
+          <div className="text-center py-8">
+            <div className="text-gray-500 text-sm sm:text-base">No se encontraron facturas</div>
+          </div>
+        )}
       </div>
 
       {/* Create Invoice Modal */}
