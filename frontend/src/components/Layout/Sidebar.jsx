@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useStats } from '../../hooks/useStats';
 import {
   LayoutDashboard,
   Users,
@@ -18,6 +19,7 @@ import logoEMB from '../../assets/logoEMB.png';
 
 const Sidebar = ({ onClose }) => {
   const { user, logout } = useAuth();
+  const { stats } = useStats();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -108,19 +110,23 @@ const Sidebar = ({ onClose }) => {
               <User className="h-5 w-5 text-white" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-white truncate">{user?.name || 'Usuario'}</p>
-              <p className="text-xs text-blue-200 truncate">{user?.email || 'admin@emb.com'}</p>
+              <p className="text-sm font-semibold text-white truncate">info</p>
+              <p className="text-xs text-blue-200 truncate">info@embdevs.com</p>
             </div>
           </div>
           
           {/* Estadísticas rápidas */}
           <div className="mt-3 grid grid-cols-2 gap-2">
             <div className="text-center">
-              <div className="text-lg font-bold text-white">24</div>
+              <div className="text-lg font-bold text-white">
+                {stats.loading ? '...' : stats.totalInvoices}
+              </div>
               <div className="text-xs text-blue-200">Facturas</div>
             </div>
             <div className="text-center">
-              <div className="text-lg font-bold text-white">€2.4k</div>
+              <div className="text-lg font-bold text-white">
+                {stats.loading ? '...' : `€${(stats.totalRevenue / 1000).toFixed(1)}k`}
+              </div>
               <div className="text-xs text-blue-200">Total</div>
             </div>
           </div>

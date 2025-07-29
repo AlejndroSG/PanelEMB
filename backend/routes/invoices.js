@@ -215,12 +215,12 @@ function generateInvoicePDF(invoice, client, services) {
   doc.setFont('helvetica', 'normal');
   doc.text('BILLING SYSTEM', 20, 45);
   
-  // Información de la empresa con iconos
+  // Información de la empresa
   doc.setFontSize(9);
   doc.setTextColor(220, 220, 220);
-  doc.text('✉ info@emb.es', 20, 52);
-  doc.text('☎ +34 123 456 789', 70, 52);
-  doc.text('🌐 www.emb.es', 130, 52);
+  doc.text('Email: info@embdevs.com', 20, 52);
+  doc.text('Tel: +34 123 456 789', 80, 52);
+  doc.text('Web: www.embdevs.com', 140, 52);
   
   // Badge de FACTURA
   doc.setFillColor(...embAccent);
@@ -260,7 +260,7 @@ function generateInvoicePDF(invoice, client, services) {
   doc.setTextColor(...white);
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
-  doc.text('👤 CLIENTE', 20, 83);
+  doc.text('CLIENTE', 20, 83);
   
   // Datos del cliente
   doc.setTextColor(...embDark);
@@ -273,15 +273,15 @@ function generateInvoicePDF(invoice, client, services) {
   doc.setFont('helvetica', 'normal');
   if (client.email) {
     yPos += 6;
-    doc.text(`✉ ${client.email}`, 20, yPos);
+    doc.text(`Email: ${client.email}`, 20, yPos);
   }
   if (client.phone) {
     yPos += 6;
-    doc.text(`☎ ${client.phone}`, 20, yPos);
+    doc.text(`Tel: ${client.phone}`, 20, yPos);
   }
   if (client.address) {
     yPos += 6;
-    doc.text(`🏠 ${client.address}`, 20, yPos);
+    doc.text(`Dirección: ${client.address}`, 20, yPos);
   }
   
   // Detalles de la Factura
@@ -297,7 +297,7 @@ function generateInvoicePDF(invoice, client, services) {
   doc.setTextColor(...white);
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
-  doc.text('📅 DETALLES', 115, 83);
+  doc.text('DETALLES', 115, 83);
   
   // Fechas y estado
   doc.setTextColor(...embDark);
@@ -343,7 +343,7 @@ function generateInvoicePDF(invoice, client, services) {
   doc.setTextColor(...white);
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.text('📋 DETALLE DE SERVICIOS', 20, yPosition + 10);
+  doc.text('DETALLE DE SERVICIOS', 20, yPosition + 10);
   
   yPosition += 20;
   
@@ -441,7 +441,7 @@ function generateInvoicePDF(invoice, client, services) {
   doc.setTextColor(...white);
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
-  doc.text('💰 RESUMEN DE PRECIOS', 120, yPosition + 8);
+  doc.text('RESUMEN DE PRECIOS', 120, yPosition + 8);
   
   // Subtotal
   doc.setTextColor(...embDark);
@@ -490,7 +490,7 @@ function generateInvoicePDF(invoice, client, services) {
     doc.setTextColor(...white);
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.text('📝 NOTAS ADICIONALES', 20, yPosition + 7);
+    doc.text('NOTAS ADICIONALES', 20, yPosition + 7);
     
     // Contenido de las notas
     doc.setTextColor(...embDark);
@@ -510,7 +510,7 @@ function generateInvoicePDF(invoice, client, services) {
   doc.setTextColor(...embDark);
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text('💼 CONDICIONES DE PAGO', 20, yPosition + 8);
+  doc.text('CONDICIONES DE PAGO', 20, yPosition + 8);
   
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
@@ -544,7 +544,7 @@ function generateInvoicePDF(invoice, client, services) {
   doc.setFontSize(7);
   doc.text('CIF: B12345678 | Registro Mercantil de Madrid, Tomo 1234, Folio 567, Sección 8ª, Hoja M-12345', 60, footerY + 8);
   doc.text('Dirección: Calle de la Innovación 123, 28001 Madrid, España', 60, footerY + 14);
-  doc.text('Teléfono: +34 123 456 789 | Email: info@emb.es | Web: www.emb.es', 60, footerY + 20);
+  doc.text('Teléfono: +34 123 456 789 | Email: info@embdevs.com | Web: www.embdevs.com', 60, footerY + 20);
   
   // Mensaje de agradecimiento en badge
   doc.setFillColor(...embAccent);

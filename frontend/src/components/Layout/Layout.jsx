@@ -89,10 +89,10 @@ const Layout = ({ children }) => {
                 </div>
                 <div className="hidden sm:block text-left">
                   <div className="text-sm font-medium text-gray-900">
-                    {user?.name || 'Usuario'}
+                    info
                   </div>
                   <div className="text-xs text-gray-500">
-                    {user?.email || 'usuario@emb.com'}
+                    info@embdevs.com
                   </div>
                 </div>
                 <button 
