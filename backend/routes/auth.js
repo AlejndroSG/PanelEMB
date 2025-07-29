@@ -6,7 +6,7 @@ const db = require('../config/jsondb');
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'emb_secret_key_2025';
 
-// Login
+// Login con credenciales fijas
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
 
@@ -14,19 +14,25 @@ router.post('/login', (req, res) => {
     return res.status(400).json({ error: 'Email y contraseña son requeridos' });
   }
 
-  const user = db.getUserByEmail(email);
-  
-  if (!user) {
+  // Credenciales fijas autorizadas
+  const VALID_EMAIL = 'info@embdevs.com';
+  const VALID_PASSWORD = 'b#sHBEj9JrovK';
+
+  // Validar credenciales exactas
+  if (email !== VALID_EMAIL || password !== VALID_PASSWORD) {
     return res.status(401).json({ error: 'Credenciales inválidas' });
   }
 
-  const isValidPassword = bcrypt.compareSync(password, user.password);
-  if (!isValidPassword) {
-    return res.status(401).json({ error: 'Credenciales inválidas' });
-  }
+  // Usuario autorizado fijo
+  const authorizedUser = {
+    id: 1,
+    name: 'Administrador EMB',
+    email: VALID_EMAIL,
+    role: 'admin'
+  };
 
   const token = jwt.sign(
-    { userId: user.id, email: user.email, name: user.name },
+    { userId: authorizedUser.id, email: authorizedUser.email, name: authorizedUser.name },
     JWT_SECRET,
     { expiresIn: '24h' }
   );
@@ -34,12 +40,7 @@ router.post('/login', (req, res) => {
   res.json({
     message: 'Login exitoso',
     token,
-    user: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role
-    }
+    user: authorizedUser
   });
 });
 
