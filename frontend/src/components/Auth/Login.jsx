@@ -4,6 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, AlertCircle, Eye, EyeOff, Building2 } from 'lucide-react';
 import logoEMB from '../../assets/logoEMB.png';
 
+// Usuarios de ejemplo para testing
+const exampleUsers = [
+  { name: 'Admin EMB', email: 'admin@emb.com' },
+  { name: 'Gestor Facturas', email: 'gestor@emb.com' },
+  { name: 'Contable', email: 'contable@emb.com' },
+  { name: 'Usuario Demo', email: 'demo@emb.com' }
+];
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
