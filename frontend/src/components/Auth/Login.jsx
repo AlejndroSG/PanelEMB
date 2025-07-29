@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, AlertCircle, Eye, EyeOff, Building2 } from 'lucide-react';
 import logoEMB from '../../assets/logoEMB.png';
 
 const Login = () => {
