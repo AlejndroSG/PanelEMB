@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Building2, Mail, Lock, AlertCircle } from 'lucide-react';
+import { Mail, Lock, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import logoEMB from '../../assets/logoEMB.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -15,26 +17,44 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setLoading(true);
 
-    const result = await login(email, password);
-    
-    if (result.success) {
-      navigate('/');
-    } else {
-      setError(result.error);
+    try {
+      const result = await login(email, password);
+      
+      if (result.success) {
+        navigate('/');
+      } else {
+        setError(result.error || 'Credenciales incorrectas');
+      }
+    } catch (err) {
+      setError('Error de conexión. Inténtelo de nuevo.');
     }
     
     setLoading(false);
   };
 
-  // Usuarios de ejemplo para mostrar
-  const exampleUsers = [
-    { name: 'Aguayo', email: 'aguayo@emb.com' },
-    { name: 'Pepe', email: 'pepe@emb.com' },
-    { name: 'Andrés', email: 'andres@emb.com' },
-    { name: 'Alex', email: 'alex@emb.com' }
-  ];
+  // Validación de formulario
+  const validateForm = () => {
+    if (!email || !password) {
+      setError('Por favor, complete todos los campos');
+      return false;
+    }
+    if (!email.includes('@')) {
+      setError('Por favor, ingrese un email válido');
+      return false;
+    }
+    if (password.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres');
+      return false;
+    }
+    return true;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emb-50 to-emb-100 flex items-center justify-center py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
@@ -66,14 +86,16 @@ const Login = () => {
               <label htmlFor="email" className="form-label">
                 Email
               </label>
-              <div className="input-with-icon">
-                <Mail className="input-icon h-5 w-5" />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Mail className="h-5 w-5 text-gray-400" />
+                </div>
                 <input
                   id="email"
                   name="email"
                   type="email"
                   required
-                  className="form-input"
+                  className="form-input pl-10"
                   placeholder="tu@emb.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -85,14 +107,16 @@ const Login = () => {
               <label htmlFor="password" className="form-label">
                 Contraseña
               </label>
-              <div className="input-with-icon">
-                <Lock className="input-icon h-5 w-5" />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-gray-400" />
+                </div>
                 <input
                   id="password"
                   name="password"
                   type="password"
                   required
-                  className="form-input"
+                  className="form-input pl-10"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -103,16 +127,9 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                  Iniciando sesión...
-                </div>
-              ) : (
-                'Iniciar Sesión'
-              )}
+              {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
             </button>
           </div>
         </form>

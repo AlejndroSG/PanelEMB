@@ -179,174 +179,165 @@ router.delete('/:id', verifyToken, (req, res) => {
   }
 });
 
-// Función para generar PDF de factura
+// Función para generar PDF de factura con diseño profesional
 function generateInvoicePDF(invoice, client, services) {
   const doc = new jsPDF();
   
-  // Configuración de colores EMB más profesionales
-  const embBlue = [41, 128, 185];
-  const embDark = [23, 54, 93];
-  const lightBlue = [174, 213, 239];
-  const darkGray = [52, 73, 94];
-  const lightGray = [248, 249, 250];
+  // Paleta de colores profesional EMB
+  const embDark = [15, 23, 42];        // slate-900
+  const embBlue = [30, 64, 175];       // blue-800
+  const embAccent = [16, 185, 129];    // emerald-500
+  const embGray = [71, 85, 105];       // slate-600
+  const lightGray = [248, 250, 252];   // slate-50
+  const mediumGray = [203, 213, 225];  // slate-300
   const white = [255, 255, 255];
-  const accent = [46, 204, 113];
+  const success = [34, 197, 94];       // green-500
+  const warning = [251, 191, 36];      // amber-400
+  const danger = [239, 68, 68];        // red-500
   
-  // Header profesional con gradiente mejorado
+  // === HEADER PROFESIONAL ===
+  // Fondo principal del header
   doc.setFillColor(...embDark);
-  doc.rect(0, 0, 210, 55, 'F');
+  doc.rect(0, 0, 210, 60, 'F');
   
   // Banda decorativa superior
-  doc.setFillColor(...accent);
-  doc.rect(0, 0, 210, 3, 'F');
+  doc.setFillColor(...embAccent);
+  doc.rect(0, 0, 210, 8, 'F');
   
-  // Logo EMB mejorado con diseño
-  doc.setFillColor(...white);
-  doc.roundedRect(15, 12, 50, 30, 5, 5, 'F');
-  
-  // Logo text con mejor tipografía
-  doc.setTextColor(...embBlue);
-  doc.setFontSize(28);
-  doc.setFont('helvetica', 'bold');
-  doc.text('EMB', 25, 32);
-  
-  // Información de la empresa con mejor layout
+  // Logo EMB mejorado
   doc.setTextColor(...white);
-  doc.setFontSize(16);
+  doc.setFontSize(36);
   doc.setFont('helvetica', 'bold');
-  doc.text('EMB DIGITAL SOLUTIONS', 75, 25);
+  doc.text('EMB', 20, 35);
   
-  doc.setFontSize(11);
+  // Subtítulo de la empresa
+  doc.setFontSize(12);
   doc.setFont('helvetica', 'normal');
-  doc.text('Desarrollo Web • Marketing Digital • Consultoría IT', 75, 33);
+  doc.text('BILLING SYSTEM', 20, 45);
   
-  // Información de contacto mejorada
+  // Información de la empresa con iconos
   doc.setFontSize(9);
-  doc.text('📧 info@emb.es  📞 +34 123 456 789  🌐 www.emb.es', 75, 42);
-  doc.text('📍 Calle Innovación 123, 28001 Madrid, España', 75, 48);
+  doc.setTextColor(220, 220, 220);
+  doc.text('✉ info@emb.es', 20, 52);
+  doc.text('☎ +34 123 456 789', 70, 52);
+  doc.text('🌐 www.emb.es', 130, 52);
   
-  // Título FACTURA mejorado
-  doc.setFillColor(...accent);
-  doc.roundedRect(135, 15, 70, 25, 5, 5, 'F');
+  // Badge de FACTURA
+  doc.setFillColor(...embAccent);
+  doc.roundedRect(135, 18, 65, 25, 5, 5, 'F');
+  
+  // Texto FACTURA
   doc.setTextColor(...white);
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
-  doc.text('FACTURA', 148, 30);
+  doc.text('FACTURA', 145, 32);
   
-  // Número de factura con mejor diseño
+  // Número de factura en caja blanca
   doc.setFillColor(...white);
-  doc.roundedRect(135, 42, 70, 10, 3, 3, 'F');
+  doc.roundedRect(140, 35, 55, 8, 2, 2, 'F');
   doc.setTextColor(...embDark);
-  doc.setFontSize(11);
+  doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text(`Nº ${invoice.invoice_number}`, 148, 48);
+  doc.text(`Nº ${invoice.invoice_number}`, 145, 40);
   
-  // Línea separadora decorativa
-  doc.setDrawColor(...accent);
+  // Línea separadora elegante
+  doc.setDrawColor(...embAccent);
   doc.setLineWidth(2);
-  doc.line(15, 60, 195, 60);
+  doc.line(20, 65, 190, 65);
   
-  // Línea secundaria
-  doc.setDrawColor(...lightBlue);
+  // === SECCIÓN DE INFORMACIÓN ===
+  
+  // Información del Cliente
+  doc.setFillColor(...white);
+  doc.roundedRect(15, 75, 85, 45, 5, 5, 'F');
+  doc.setDrawColor(...mediumGray);
   doc.setLineWidth(0.5);
-  doc.line(15, 62, 195, 62);
+  doc.roundedRect(15, 75, 85, 45, 5, 5, 'S');
   
-  // Sección de información del cliente mejorada
-  doc.setFillColor(...lightGray);
-  doc.roundedRect(15, 70, 85, 45, 5, 5, 'F');
-  
-  // Header del cliente con icono
+  // Header de cliente con icono
   doc.setFillColor(...embBlue);
-  doc.roundedRect(15, 70, 85, 12, 5, 5, 'F');
+  doc.roundedRect(15, 75, 85, 12, 5, 5, 'F');
   doc.setTextColor(...white);
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
-  doc.text('👤 FACTURAR A:', 20, 78);
+  doc.text('👤 CLIENTE', 20, 83);
   
-  // Información del cliente
-  doc.setTextColor(...darkGray);
-  doc.setFontSize(11);
+  // Datos del cliente
+  doc.setTextColor(...embDark);
+  doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
-  let yPos = 88;
+  let yPos = 95;
   doc.text(client.name || 'Cliente', 20, yPos);
   
+  doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(9);
   if (client.email) {
     yPos += 6;
-    doc.text(`📧 ${client.email}`, 20, yPos);
+    doc.text(`✉ ${client.email}`, 20, yPos);
   }
   if (client.phone) {
     yPos += 6;
-    doc.text(`📞 ${client.phone}`, 20, yPos);
+    doc.text(`☎ ${client.phone}`, 20, yPos);
   }
   if (client.address) {
     yPos += 6;
-    doc.text(`📍 ${client.address}`, 20, yPos);
-  }
-  if (client.cif_nif) {
-    yPos += 6;
-    doc.text(`🏢 CIF/NIF: ${client.cif_nif}`, 20, yPos);
+    doc.text(`🏠 ${client.address}`, 20, yPos);
   }
   
-  // Sección de fechas mejorada
-  doc.setFillColor(...lightGray);
-  doc.roundedRect(110, 70, 85, 45, 5, 5, 'F');
+  // Detalles de la Factura
+  doc.setFillColor(...white);
+  doc.roundedRect(110, 75, 80, 45, 5, 5, 'F');
+  doc.setDrawColor(...mediumGray);
+  doc.setLineWidth(0.5);
+  doc.roundedRect(110, 75, 80, 45, 5, 5, 'S');
   
   // Header de detalles con icono
   doc.setFillColor(...embBlue);
-  doc.roundedRect(110, 70, 85, 12, 5, 5, 'F');
+  doc.roundedRect(110, 75, 80, 12, 5, 5, 'F');
   doc.setTextColor(...white);
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
-  doc.text('📅 DETALLES DE FACTURA:', 115, 78);
+  doc.text('📅 DETALLES', 115, 83);
   
-  // Información de fechas con mejor diseño
-  doc.setTextColor(...darkGray);
+  // Fechas y estado
+  doc.setTextColor(...embDark);
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   
-  // Fecha de emisión
-  doc.text('Fecha de emisión:', 115, 90);
+  doc.text('Fecha de emisión:', 115, 95);
   doc.setFont('helvetica', 'bold');
-  doc.text(new Date(invoice.issue_date).toLocaleDateString('es-ES'), 165, 90);
+  doc.text(new Date(invoice.issue_date).toLocaleDateString('es-ES'), 160, 95);
   
-  // Fecha de vencimiento
   doc.setFont('helvetica', 'normal');
-  doc.text('Fecha de vencimiento:', 115, 97);
+  doc.text('Fecha de vencimiento:', 115, 103);
   doc.setFont('helvetica', 'bold');
-  doc.text(new Date(invoice.due_date).toLocaleDateString('es-ES'), 165, 97);
+  doc.text(new Date(invoice.due_date).toLocaleDateString('es-ES'), 160, 103);
   
-  // Estado de la factura con badge
+  // Estado de la factura con badge colorido
   doc.setFont('helvetica', 'normal');
-  doc.text('Estado:', 115, 104);
+  doc.text('Estado:', 115, 111);
   
-  const statusText = {
-    pending: 'PENDIENTE',
-    paid: 'PAGADA',
-    overdue: 'VENCIDA',
-    cancelled: 'CANCELADA'
+  const statusConfig = {
+    pending: { text: 'Pendiente', color: warning, bgColor: [255, 251, 235] },
+    paid: { text: 'Pagada', color: success, bgColor: [240, 253, 244] },
+    overdue: { text: 'Vencida', color: danger, bgColor: [254, 242, 242] },
+    cancelled: { text: 'Cancelada', color: embGray, bgColor: [248, 250, 252] }
   };
   
-  const statusColors = {
-    pending: [255, 193, 7],
-    paid: [40, 167, 69],
-    overdue: [220, 53, 69],
-    cancelled: [108, 117, 125]
-  };
+  const status = statusConfig[invoice.status] || statusConfig.pending;
   
-  const statusColor = statusColors[invoice.status] || statusColors.pending;
-  doc.setFillColor(...statusColor);
-  doc.roundedRect(155, 100, 35, 8, 2, 2, 'F');
-  doc.setTextColor(...white);
-  doc.setFontSize(8);
+  // Badge del estado
+  doc.setFillColor(...status.bgColor);
+  doc.roundedRect(155, 107, 30, 8, 2, 2, 'F');
+  doc.setTextColor(...status.color);
+  doc.setFontSize(9);
   doc.setFont('helvetica', 'bold');
-  doc.text(statusText[invoice.status] || 'PENDIENTE', 158, 105);
+  doc.text(status.text, 158, 112);
   
-  // Tabla de items con diseño profesional mejorado
-  let yPosition = 125;
+  // === TABLA DE SERVICIOS ===
+  let yPosition = 135;
   
-  // Título de la tabla con icono
+  // Título de la sección con icono
   doc.setFillColor(...embDark);
   doc.roundedRect(15, yPosition, 180, 15, 3, 3, 'F');
   doc.setTextColor(...white);
@@ -356,24 +347,22 @@ function generateInvoicePDF(invoice, client, services) {
   
   yPosition += 20;
   
-  // Headers de la tabla con mejor diseño
-  doc.setFillColor(...accent);
-  doc.roundedRect(15, yPosition, 180, 12, 2, 2, 'F');
+  // Headers de la tabla profesional
+  doc.setFillColor(...embBlue);
+  doc.roundedRect(15, yPosition, 180, 15, 3, 3, 'F');
   
   doc.setTextColor(...white);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9);
-  doc.text('DESCRIPCIÓN', 20, yPosition + 8);
-  doc.text('CANT.', 115, yPosition + 8);
-  doc.text('PRECIO', 135, yPosition + 8);
-  doc.text('IVA', 155, yPosition + 8);
-  doc.text('TOTAL', 175, yPosition + 8);
+  doc.setFontSize(10);
+  doc.text('DESCRIPCIÓN', 20, yPosition + 10);
+  doc.text('CANT.', 105, yPosition + 10);
+  doc.text('PRECIO UNIT.', 125, yPosition + 10);
+  doc.text('IVA', 155, yPosition + 10);
+  doc.text('TOTAL', 175, yPosition + 10);
   
-  yPosition += 15;
+  yPosition += 18;
   
-  // Items con alternancia de colores
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(9);
+  // Items con diseño profesional
   let subtotal = 0;
   let totalIVA = 0;
   let rowIndex = 0;
@@ -384,153 +373,186 @@ function generateInvoicePDF(invoice, client, services) {
     const itemIVA = itemSubtotal * (item.iva_rate / 100);
     const itemTotal = itemSubtotal + itemIVA;
     
-    // Fila alternada
+    // Fila con bordes redondeados
+    const rowHeight = service.description ? 18 : 12;
+    
     if (rowIndex % 2 === 0) {
       doc.setFillColor(...lightGray);
-      doc.rect(15, yPosition - 5, 180, 12, 'F');
+    } else {
+      doc.setFillColor(...white);
     }
+    doc.roundedRect(15, yPosition - 3, 180, rowHeight, 2, 2, 'F');
     
-    doc.setTextColor(...darkGray);
+    // Borde sutil
+    doc.setDrawColor(...mediumGray);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(15, yPosition - 3, 180, rowHeight, 2, 2, 'S');
+    
+    doc.setTextColor(...embDark);
     
     // Nombre del servicio
     doc.setFont('helvetica', 'bold');
-    doc.text(service.name, 20, yPosition);
+    doc.setFontSize(10);
+    doc.text(service.name, 20, yPosition + 3);
     
     // Descripción del servicio (si existe)
     if (service.description) {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
-      doc.text(service.description, 20, yPosition + 4);
-      doc.setFontSize(9);
+      doc.setTextColor(...embGray);
+      doc.text(service.description, 20, yPosition + 8);
     }
     
+    // Datos numéricos
+    doc.setTextColor(...embDark);
     doc.setFont('helvetica', 'normal');
-    doc.text(item.quantity.toString(), 115, yPosition);
-    doc.text(`€${item.unit_price.toFixed(2)}`, 130, yPosition);
-    doc.text(`${item.iva_rate}%`, 152, yPosition);
+    doc.setFontSize(10);
+    doc.text(item.quantity.toString(), 108, yPosition + 3);
+    doc.text(`€${item.unit_price.toFixed(2)}`, 127, yPosition + 3);
+    doc.text(`${item.iva_rate}%`, 157, yPosition + 3);
     
+    // Total en negrita
     doc.setFont('helvetica', 'bold');
-    doc.text(`€${itemTotal.toFixed(2)}`, 170, yPosition);
+    doc.setTextColor(...embBlue);
+    doc.text(`€${itemTotal.toFixed(2)}`, 175, yPosition + 3);
     
     subtotal += itemSubtotal;
     totalIVA += itemIVA;
-    yPosition += service.description ? 15 : 12;
+    yPosition += rowHeight + 3;
     rowIndex++;
   });
   
-  // Línea separadora antes de totales
-  yPosition += 5;
-  doc.setDrawColor(...embBlue);
+  // === SECCIÓN DE TOTALES ===
+  yPosition += 10;
+  
+  // Resumen de precios profesional
+  const totalFinal = subtotal + totalIVA;
+  
+  // Caja de totales con diseño elegante
+  doc.setFillColor(...white);
+  doc.roundedRect(115, yPosition, 80, 45, 5, 5, 'F');
+  doc.setDrawColor(...mediumGray);
   doc.setLineWidth(0.5);
-  doc.line(15, yPosition, 195, yPosition);
+  doc.roundedRect(115, yPosition, 80, 45, 5, 5, 'S');
   
-  // Sección de totales con diseño mejorado
-  yPosition += 15;
-  
-  // Fondo para totales
-  doc.setFillColor(...lightGray);
-  doc.roundedRect(120, yPosition - 5, 75, 35, 3, 3, 'F');
-  
-  doc.setTextColor(...darkGray);
+  // Header de totales
+  doc.setFillColor(...embDark);
+  doc.roundedRect(115, yPosition, 80, 12, 5, 5, 'F');
+  doc.setTextColor(...white);
   doc.setFontSize(11);
-  doc.setFont('helvetica', 'normal');
-  
-  doc.text('Subtotal:', 125, yPosition);
-  doc.text(`€${subtotal.toFixed(2)}`, 170, yPosition);
-  
-  yPosition += 8;
-  doc.text('IVA:', 125, yPosition);
-  doc.text(`€${totalIVA.toFixed(2)}`, 170, yPosition);
-  
-  // Línea separadora para total
-  yPosition += 5;
-  doc.setDrawColor(...embBlue);
-  doc.setLineWidth(1);
-  doc.line(125, yPosition, 190, yPosition);
-  
-  yPosition += 8;
-  doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...embBlue);
-  doc.text('TOTAL:', 125, yPosition);
-  doc.text(`€${(subtotal + totalIVA).toFixed(2)}`, 165, yPosition);
+  doc.text('💰 RESUMEN DE PRECIOS', 120, yPosition + 8);
   
-  // Notas con diseño mejorado
+  // Subtotal
+  doc.setTextColor(...embDark);
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Subtotal:', 120, yPosition + 20);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`€${subtotal.toFixed(2)}`, 170, yPosition + 20);
+  
+  // IVA
+  doc.setFont('helvetica', 'normal');
+  doc.text('IVA:', 120, yPosition + 28);
+  doc.setFont('helvetica', 'bold');
+  doc.text(`€${totalIVA.toFixed(2)}`, 170, yPosition + 28);
+  
+  // Línea separadora elegante
+  doc.setDrawColor(...embAccent);
+  doc.setLineWidth(1);
+  doc.line(120, yPosition + 32, 190, yPosition + 32);
+  
+  // Total final destacado
+  doc.setFillColor(...embAccent);
+  doc.roundedRect(120, yPosition + 35, 70, 8, 2, 2, 'F');
+  doc.setTextColor(...white);
+  doc.setFontSize(12);
+  doc.setFont('helvetica', 'bold');
+  doc.text('TOTAL:', 125, yPosition + 40);
+  doc.setFontSize(14);
+  doc.text(`€${totalFinal.toFixed(2)}`, 165, yPosition + 40);
+  
+  yPosition += 50;
+  
+  // === NOTAS ADICIONALES ===
   if (invoice.notes) {
-    yPosition += 20;
+    yPosition += 15;
     
-    doc.setFillColor(...lightGray);
-    doc.roundedRect(15, yPosition - 5, 180, 25, 3, 3, 'F');
+    doc.setFillColor(...white);
+    doc.roundedRect(15, yPosition, 180, 30, 5, 5, 'F');
+    doc.setDrawColor(...mediumGray);
+    doc.setLineWidth(0.5);
+    doc.roundedRect(15, yPosition, 180, 30, 5, 5, 'S');
     
-    doc.setTextColor(...darkGray);
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'bold');
-    doc.text('NOTAS ADICIONALES:', 20, yPosition + 5);
-    
-    doc.setFont('helvetica', 'normal');
+    // Header de notas
+    doc.setFillColor(...embGray);
+    doc.roundedRect(15, yPosition, 180, 10, 5, 5, 'F');
+    doc.setTextColor(...white);
     doc.setFontSize(10);
-    doc.text(invoice.notes, 20, yPosition + 15);
+    doc.setFont('helvetica', 'bold');
+    doc.text('📝 NOTAS ADICIONALES', 20, yPosition + 7);
     
-    yPosition += 30;
+    // Contenido de las notas
+    doc.setTextColor(...embDark);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.text(invoice.notes, 20, yPosition + 18);
+    
+    yPosition += 35;
   }
   
-  // Footer profesional mejorado
-  const footerY = 265;
+  // === CONDICIONES DE PAGO ===
+  yPosition += 10;
   
-  // Sección de información adicional
   doc.setFillColor(...lightGray);
-  doc.roundedRect(15, footerY - 25, 180, 20, 3, 3, 'F');
+  doc.roundedRect(15, yPosition, 180, 25, 5, 5, 'F');
   
-  doc.setTextColor(...darkGray);
-  doc.setFontSize(9);
+  doc.setTextColor(...embDark);
+  doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
-  doc.text('CONDICIONES DE PAGO:', 20, footerY - 18);
+  doc.text('💼 CONDICIONES DE PAGO', 20, yPosition + 8);
   
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
-  doc.text('Pago a 30 días desde la fecha de emisión. Transferencia bancaria o domiciliación SEPA.', 20, footerY - 12);
-  doc.text('Recargos por demora según Ley 3/2004. Retención IRPF aplicable según legislación vigente.', 20, footerY - 7);
+  doc.text('\u2022 El pago debe realizarse en un plazo máximo de 30 días desde la fecha de emisión.', 20, yPosition + 15);
+  doc.text('\u2022 Los pagos fuera de plazo estarán sujetos a intereses de demora.', 20, yPosition + 20);
   
-  // Línea separadora decorativa
-  doc.setDrawColor(...accent);
-  doc.setLineWidth(2);
-  doc.line(15, footerY - 2, 195, footerY - 2);
+  // === FOOTER PROFESIONAL ===
+  const footerY = 260;
   
-  // Footer principal con gradiente
+  // Fondo del footer
   doc.setFillColor(...embDark);
-  doc.rect(0, footerY, 210, 32, 'F');
+  doc.rect(0, footerY, 210, 37, 'F');
   
   // Banda decorativa inferior
-  doc.setFillColor(...accent);
-  doc.rect(0, footerY + 29, 210, 3, 'F');
+  doc.setFillColor(...embAccent);
+  doc.rect(0, footerY + 29, 210, 8, 'F');
   
   // Logo en el footer
-  doc.setFillColor(...white);
-  doc.roundedRect(15, footerY + 5, 30, 20, 3, 3, 'F');
-  doc.setTextColor(...embBlue);
-  doc.setFontSize(16);
+  doc.setTextColor(...white);
+  doc.setFontSize(24);
   doc.setFont('helvetica', 'bold');
-  doc.text('EMB', 22, footerY + 17);
+  doc.text('EMB', 20, footerY + 18);
   
   // Información de la empresa
-  doc.setTextColor(...white);
-  doc.setFontSize(11);
-  doc.setFont('helvetica', 'bold');
-  doc.text('EMB DIGITAL SOLUTIONS', 55, footerY + 10);
-  
-  doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
-  doc.text('CIF: B12345678 • Registro Mercantil de Madrid', 55, footerY + 16);
-  doc.text('Calle Innovación 123, 28001 Madrid, España', 55, footerY + 20);
-  doc.text('📞 +34 123 456 789 • 📧 info@emb.es • 🌐 www.emb.es', 55, footerY + 24);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(220, 220, 220);
+  doc.text('EMB Billing System - Desarrollo Web & Marketing Digital', 20, footerY + 25);
   
-  // Mensaje de agradecimiento mejorado
-  doc.setFillColor(...accent);
-  doc.roundedRect(140, footerY + 8, 60, 12, 3, 3, 'F');
+  // Información legal y fiscal
+  doc.setFontSize(7);
+  doc.text('CIF: B12345678 | Registro Mercantil de Madrid, Tomo 1234, Folio 567, Sección 8ª, Hoja M-12345', 60, footerY + 8);
+  doc.text('Dirección: Calle de la Innovación 123, 28001 Madrid, España', 60, footerY + 14);
+  doc.text('Teléfono: +34 123 456 789 | Email: info@emb.es | Web: www.emb.es', 60, footerY + 20);
+  
+  // Mensaje de agradecimiento en badge
+  doc.setFillColor(...embAccent);
+  doc.roundedRect(140, footerY + 23, 55, 8, 2, 2, 'F');
   doc.setTextColor(...white);
-  doc.setFontSize(9);
+  doc.setFontSize(8);
   doc.setFont('helvetica', 'bold');
-  doc.text('¡Gracias por su confianza!', 145, footerY + 16);
+  doc.text('¡Gracias por confiar en EMB!', 145, footerY + 28);
   
   return doc;
 }

@@ -9,8 +9,12 @@ import {
   LogOut,
   Building2,
   CreditCard,
-  X
+  X,
+  User,
+  TrendingUp,
+  Shield
 } from 'lucide-react';
+import logoEMB from '../../assets/logoEMB.png';
 
 const Sidebar = ({ onClose }) => {
   const { user, logout } = useAuth();
@@ -45,77 +49,93 @@ const Sidebar = ({ onClose }) => {
   ];
 
   return (
-    <div className="bg-white shadow-sm border-r border-gray-200 h-full flex flex-col">
-      {/* Header con logo y botón cerrar móvil */}
-      <div className="p-4 sm:p-6 border-b border-gray-200">
+    <div className="bg-gradient-to-b from-slate-900 via-blue-900 to-slate-800 shadow-2xl h-full flex flex-col">
+      {/* Header con logo profesional */}
+      <div className="p-6 border-b border-white/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="bg-emb-600 p-2 rounded-lg">
-              <Building2 className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-            </div>
+            <img src={logoEMB} alt="EMB" className="h-10 w-auto" />
             <div>
-              <h1 className="text-lg sm:text-xl font-bold text-gray-900">EMB</h1>
-              <p className="text-xs sm:text-sm text-gray-500">Sistema de Facturación</p>
+              <h1 className="text-xl font-bold text-white">EMB</h1>
+              <p className="text-xs text-blue-200">Billing System</p>
             </div>
           </div>
           
           {/* Botón cerrar para móviles */}
           <button
             type="button"
-            className="lg:hidden -mr-2 -mt-2 h-10 w-10 inline-flex items-center justify-center rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+            className="lg:hidden p-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200"
             onClick={onClose}
           >
-            <span className="sr-only">Cerrar sidebar</span>
             <X className="h-6 w-6" />
           </button>
         </div>
       </div>
 
       {/* Navegación */}
-      <nav className="flex-1 p-3 sm:p-4 space-y-1 sm:space-y-2">
+      <nav className="flex-1 p-4 space-y-2">
         {menuItems.map((item) => {
           const Icon = item.icon;
           return (
             <NavLink
               key={item.name}
               to={item.href}
-              onClick={onClose} // Cerrar sidebar en móvil al hacer clic
+              onClick={onClose}
               className={({ isActive }) =>
-                `flex items-center space-x-3 px-3 py-2.5 sm:py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+                `group flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
                   isActive
-                    ? 'bg-emb-50 text-emb-700 border-r-2 border-emb-600'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-white/20 text-white shadow-lg backdrop-blur-sm border border-white/20'
+                    : 'text-blue-100 hover:bg-white/10 hover:text-white'
                 }`
               }
             >
-              <Icon className="h-5 w-5 flex-shrink-0" />
+              <Icon className="h-5 w-5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110" />
               <span className="truncate">{item.name}</span>
+              {({ isActive }) => isActive && (
+                <div className="ml-auto w-2 h-2 bg-emerald-400 rounded-full"></div>
+              )}
             </NavLink>
           );
         })}
       </nav>
 
-      {/* Usuario y logout */}
-      <div className="p-3 sm:p-4 border-t border-gray-200">
-        <div className="flex items-center space-x-3 mb-3">
-          <div className="bg-gray-200 p-2 rounded-full flex-shrink-0">
-            <Users className="h-4 w-4 text-gray-600" />
+      {/* Sección de usuario */}
+      <div className="p-4 border-t border-white/10">
+        {/* Información del usuario */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 mb-4">
+          <div className="flex items-center space-x-3">
+            <div className="h-10 w-10 bg-gradient-to-r from-blue-400 to-emerald-400 rounded-xl flex items-center justify-center">
+              <User className="h-5 w-5 text-white" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-white truncate">{user?.name || 'Usuario'}</p>
+              <p className="text-xs text-blue-200 truncate">{user?.email || 'admin@emb.com'}</p>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">{user?.name || 'Usuario'}</p>
-            <p className="text-xs text-gray-500 truncate">{user?.email || 'admin@emb.com'}</p>
+          
+          {/* Estadísticas rápidas */}
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <div className="text-center">
+              <div className="text-lg font-bold text-white">24</div>
+              <div className="text-xs text-blue-200">Facturas</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-bold text-white">€2.4k</div>
+              <div className="text-xs text-blue-200">Total</div>
+            </div>
           </div>
         </div>
         
+        {/* Botón de logout */}
         <button
           onClick={() => {
             handleLogout();
-            onClose && onClose(); // Cerrar sidebar en móvil
+            onClose && onClose();
           }}
-          className="w-full flex items-center space-x-3 px-3 py-2.5 sm:py-2 text-sm font-medium text-red-700 hover:bg-red-50 rounded-lg transition-colors duration-200"
+          className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sm font-medium text-red-300 hover:text-white hover:bg-red-500/20 rounded-xl transition-all duration-200 border border-red-500/20 hover:border-red-500/40"
         >
-          <LogOut className="h-4 w-4 flex-shrink-0" />
-          <span className="truncate">Cerrar Sesión</span>
+          <LogOut className="h-4 w-4" />
+          <span>Cerrar Sesión</span>
         </button>
       </div>
     </div>
