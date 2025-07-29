@@ -4,14 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, AlertCircle, Eye, EyeOff, Building2 } from 'lucide-react';
 import logoEMB from '../../assets/logoEMB.png';
 
-// Usuarios de ejemplo para testing
-const exampleUsers = [
-  { name: 'Admin EMB', email: 'admin@emb.com' },
-  { name: 'Gestor Facturas', email: 'gestor@emb.com' },
-  { name: 'Contable', email: 'contable@emb.com' },
-  { name: 'Usuario Demo', email: 'demo@emb.com' }
-];
-
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -141,28 +133,6 @@ const Login = () => {
             </button>
           </div>
         </form>
-
-        {/* Usuarios de ejemplo */}
-        <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-          <h3 className="text-sm font-medium text-gray-900 mb-3 sm:mb-4 text-center sm:text-left">
-            Usuarios disponibles (contraseña: emb2025)
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-            {exampleUsers.map((user) => (
-              <button
-                key={user.email}
-                onClick={() => {
-                  setEmail(user.email);
-                  setPassword('emb2025');
-                }}
-                className="p-3 text-left border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200 w-full"
-              >
-                <div className="font-medium text-sm text-gray-900 truncate">{user.name}</div>
-                <div className="text-xs text-gray-500 truncate">{user.email}</div>
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );

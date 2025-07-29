@@ -298,8 +298,8 @@ const Invoices = () => {
 
       {/* Filters */}
       <div className="card">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          <div className="input-with-icon flex-1">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
+          <div className="input-with-icon flex-1 min-w-0">
             <Search className="input-icon h-5 w-5" />
             <input
               type="text"
@@ -310,19 +310,21 @@ const Invoices = () => {
             />
           </div>
           
-          <select
-            className="form-input w-full"
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            <option value="all">Todos los estados</option>
-            <option value="pending">Pendientes</option>
-            <option value="paid">Pagadas</option>
-            <option value="overdue">Vencidas</option>
-            <option value="cancelled">Canceladas</option>
-          </select>
+          <div className="w-full sm:w-48 flex-shrink-0">
+            <select
+              className="form-input w-full"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="all">Todos los estados</option>
+              <option value="pending">Pendientes</option>
+              <option value="paid">Pagadas</option>
+              <option value="overdue">Vencidas</option>
+              <option value="cancelled">Canceladas</option>
+            </select>
+          </div>
           
-          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 sm:col-span-2 lg:col-span-1">
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 flex-shrink-0">
             <button className="btn-secondary flex items-center justify-center space-x-2 w-full sm:w-auto">
               <Filter className="h-4 w-4" />
               <span className="hidden sm:inline">Filtros</span>
@@ -365,26 +367,28 @@ const Invoices = () => {
                     </div>
                   </td>
                   <td className="table-cell">
-                    <div className={`inline-flex items-center ${
-                      invoice.status === 'paid' ? 'status-paid' :
-                      invoice.status === 'pending' ? 'status-pending' :
-                      invoice.status === 'overdue' ? 'status-overdue' :
-                      'bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-semibold'
-                    }`}>
-                      {invoice.status === 'paid' ? 'Pagada' :
-                       invoice.status === 'pending' ? 'Pendiente' :
-                       invoice.status === 'overdue' ? 'Vencida' : 'Cancelada'}
+                    <div className="relative inline-block">
+                      <select
+                        value={invoice.status}
+                        onChange={(e) => handleStatusChange(invoice.id, e.target.value)}
+                        className="appearance-none bg-transparent border-none text-sm font-semibold cursor-pointer focus:outline-none pr-6 min-w-0 max-w-[120px]"
+                        style={{
+                          color: invoice.status === 'paid' ? '#10b981' :
+                                 invoice.status === 'pending' ? '#f59e0b' :
+                                 invoice.status === 'overdue' ? '#ef4444' : '#6b7280'
+                        }}
+                      >
+                        <option value="pending">Pendiente</option>
+                        <option value="paid">Pagada</option>
+                        <option value="overdue">Vencida</option>
+                        <option value="cancelled">Cancelada</option>
+                      </select>
+                      <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none">
+                        <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
                     </div>
-                    <select
-                      value={invoice.status}
-                      onChange={(e) => handleStatusChange(invoice.id, e.target.value)}
-                      className="absolute opacity-0 w-full h-full cursor-pointer"
-                    >
-                      <option value="pending">Pendiente</option>
-                      <option value="paid">Pagada</option>
-                      <option value="overdue">Vencida</option>
-                      <option value="cancelled">Cancelada</option>
-                    </select>
                   </td>
                   <td className="table-cell">
                     <div className="flex space-x-2">
